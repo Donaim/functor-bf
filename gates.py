@@ -1,4 +1,7 @@
 
+def nor (X: int, Y: int):
+    if ((X > 0) or (Y > 0)): return 0
+    else: return 1
 def nand (X: int, Y: int):
     if ((X > 0) and (Y > 0)): return 0
     else: return 1
@@ -7,6 +10,11 @@ def tnand (X: list, Y: list):
     re = [0] * len(X)
     for i in range(len(X)):
         re[i] = nand(X[i], Y[i])
+    return re
+def tnor (X: list, Y: list):
+    re = [0] * len(X)
+    for i in range(len(X)):
+        re[i] = nor(X[i], Y[i])
     return re
 
 # // data
@@ -70,7 +78,7 @@ def bruteforce(desired: list) -> list:
 
             for k in range(len(core), len(be)):
                 pair  = sc.get_ind(i, k - len(core))
-                be[k] = tnand(be[pair[0]], be[pair[1]])
+                be[k] = tnor(be[pair[0]], be[pair[1]])
                 # print("first={}; secon={}; nand={}".format(be[pair[0]], be[pair[1]], be[k]))
 
             # print("steps={}".format(re))
@@ -87,5 +95,5 @@ def bruteforce(desired: list) -> list:
         if oplen > maxop: raise Exception("Could not find in {} operations".format(maxop))
         print("")
 
-ind = bruteforce([0, 1, 1, 1])
+ind = bruteforce([1, 1, 1, 0])
 print("Operations={}".format(ind))
