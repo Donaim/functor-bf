@@ -55,13 +55,12 @@ def get_count(num_steps, min_num):
 def bruteforce(desired: list) -> list:
     print("searching for: {}".format(desired))
 
-    core = [X, Y, T, F]
+    core = [X, Y]
     # core = [T, F, X, Y]
     
-    oplen = 0
-    maxop = 4
+    maxop = 8
 
-    while True:
+    for oplen in range(maxop):
         poss_count = get_count(oplen, len(core))
         sc = smgr(poss_count, oplen)
 
@@ -78,7 +77,7 @@ def bruteforce(desired: list) -> list:
 
             for k in range(len(core), len(be)):
                 pair  = sc.get_ind(i, k - len(core))
-                be[k] = tnor(be[pair[0]], be[pair[1]])
+                be[k] = tnand(be[pair[0]], be[pair[1]])
                 # print("first={}; secon={}; nand={}".format(be[pair[0]], be[pair[1]], be[k]))
 
             # print("steps={}".format(re))
@@ -89,11 +88,8 @@ def bruteforce(desired: list) -> list:
                 for k in  range(sc.steps_count): 
                     re[k] = sc.get_ind(i, k)
                 return re
-            
-        
-        oplen += 1
-        if oplen > maxop: raise Exception("Could not find in {} operations".format(maxop))
-        print("")
+
+    if oplen > maxop: raise Exception("Could not find in {} operations".format(maxop))
 
 ind = bruteforce([1, 1, 1, 0])
 print("Operations={}".format(ind))
