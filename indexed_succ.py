@@ -1,4 +1,5 @@
-
+# increments arrays of numers
+# todo: make generic, not only for ints
 
 def find_last_ind(indexes: list, base: int):
     for i in range(len(indexes)):
