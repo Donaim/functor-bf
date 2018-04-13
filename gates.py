@@ -89,7 +89,7 @@ def bruteforce(desired: list) -> list:
                     re[k] = sc.get_ind(i, k)
                 return re
 
-    if oplen > maxop: raise Exception("Could not find in {} operations".format(maxop))
+    raise Exception("Could not find in {} operations".format(maxop))
 
-ind = bruteforce([1, 1, 1, 0])
+ind = bruteforce([1, 0, 0, 0])
 print("Operations={}".format(ind))
