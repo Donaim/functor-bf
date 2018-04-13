@@ -5,13 +5,14 @@
 
 #define uint unsigned int
 #define uchar unsigned char
+#define CORELEN 4
 #define MAX_OP_NUM 7
 
 typedef struct {
     uchar a, b, c, d;
 } func;
 typedef struct {
-    func arr[MAX_OP_NUM];
+    func arr[CORELEN + MAX_OP_NUM];
     uint size;
 } farr;
 typedef struct {
@@ -31,7 +32,7 @@ func tnand(const func x, const func y) {
 }
 #define func_equal(x, y) (x.a == y.a && x.b == y.b && x.c == y.c && x.d == y.d)
 
-void print_func(func o) {
+void print_functor(func o) {
     printf("%d %d %d %d\n", o.a, o.b, o.c, o.d);
 }
 
@@ -40,7 +41,6 @@ const func Y = { 0, 0, 1, 1 };
 const func T = { 1, 1, 1, 1 };
 const func F = { 0, 0, 0, 0 };
 
-#define CORELEN 2
 
 uint powi(uint base, uint x) {
     uint re = 1;
@@ -76,11 +76,13 @@ void free_sc(Pair ** sc, uint poss) {
 
 oparr bruteforce(const func desired) {
     printf("searching for: ");
-    print_func(desired);
+    print_functor(desired);
 
     func core[CORELEN];
     core[0] = X;
     core[1] = Y;
+    core[2] = T;
+    core[3] = F;
 
     for (int oplen = 0; oplen <= MAX_OP_NUM; oplen++) {
         uint poss_count = get_count(oplen, CORELEN);
@@ -109,8 +111,8 @@ oparr bruteforce(const func desired) {
             }
 
             if (func_equal(be.arr[be.size - 1], desired)) {
-                printf("Found be = ");
-                print_func(be.arr[be.size - 1]);
+                printf("\nFound be = ");
+                print_functor(be.arr[be.size - 1]);
                 oparr re;
                 re.size = oplen;
                 for (int k = 0; k < oplen; k++) {
@@ -124,13 +126,13 @@ oparr bruteforce(const func desired) {
         printf("\n");
     }
 
-    printf("Could not find ");
-    print_func(desired);
+    printf("\nCould not find ");
+    print_functor(desired);
     printf(" in %d operations\n", MAX_OP_NUM);
 }
 
 int main() {
-    func desired = { 1, 0, 0, 0 };
+    func desired = { 0, 1, 1, 0 };
     oparr found = bruteforce(desired);
 
     printf("Operations: ");

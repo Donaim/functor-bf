@@ -91,5 +91,5 @@ def bruteforce(desired: list) -> list:
 
     raise Exception("Could not find in {} operations".format(maxop))
 
-ind = bruteforce([1, 0, 0, 0])
+ind = bruteforce([0, 1, 1, 0])
 print("Operations={}".format(ind))
