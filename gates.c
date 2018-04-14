@@ -15,7 +15,7 @@ typedef struct {
     uint size;
 } oparr;
 
-#define nand(x, y) (! (x && y)) 
+#define nand(p, q) (!(p && q)) 
 
 func tnand(const func x, const func y) {
     func re;
@@ -37,8 +37,8 @@ void print_functor(func o) {
     printf("%d %d %d %d\n", o.a, o.b, o.c, o.d);
 }
 
-const func X = { 0, 1, 0, 1 };
-const func Y = { 0, 0, 1, 1 };
+const func X = { 0, 0, 1, 1 };
+const func Y = { 0, 1, 0, 1 };
 const func T = { 1, 1, 1, 1 };
 const func F = { 0, 0, 0, 0 };
 
@@ -88,11 +88,8 @@ void find_hardest() {
     func hardest_functor;
     uint hardest_oplen = 0;
     
-    func nxor = { 1, 0, 0, 1 };
-
     do {
         func desired = { inc[3], inc[2], inc[1], inc[0] };
-        // if (func_equal(desired, nxor)) { continue; }
 
         oparr found = bruteforce(desired);
         // printf("found in %d operations\n", found.size);
@@ -120,7 +117,7 @@ void find_xor() {
 }
 
 int main() {
-    find_xor();
+    // find_xor();
     find_hardest();
 
     return 0;
