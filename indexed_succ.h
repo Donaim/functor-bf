@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-#define ARRSIZE 2
+#define ARRSIZE 4
 #define uint unsigned int
 #define uchar unsigned char
 

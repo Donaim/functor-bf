@@ -5,7 +5,7 @@
 
 #define uint unsigned int
 #define uchar unsigned char
-#define CORELEN 4
+#define CORELEN 2
 #define MAX_OP_NUM 7
 
 typedef struct {
@@ -55,7 +55,7 @@ uint get_count(uint num_steps, uint min_num) {
         re *= (powi(2, i));
     }
 
-    printf("count(%d,%d) = %d\n", num_steps, min_num, re);
+    // printf("count(%d,%d) = %d\n", num_steps, min_num, re);
 
     return re;
 }
@@ -75,10 +75,10 @@ void free_sc(Pair ** sc, uint poss) {
 }
 
 oparr bruteforce(const func desired) {
-    printf("searching for: ");
+    printf("\nsearching for: ");
     print_functor(desired);
 
-    func core[CORELEN];
+    func core[4];
     core[0] = X;
     core[1] = Y;
     core[2] = T;
@@ -111,8 +111,6 @@ oparr bruteforce(const func desired) {
             }
 
             if (func_equal(be.arr[be.size - 1], desired)) {
-                printf("\nFound be = ");
-                print_functor(be.arr[be.size - 1]);
                 oparr re;
                 re.size = oplen;
                 for (int k = 0; k < oplen; k++) {
@@ -123,7 +121,6 @@ oparr bruteforce(const func desired) {
         }
 
         free_sc(sc, poss_count);
-        printf("\n");
     }
 
     printf("\nCould not find ");
@@ -131,7 +128,34 @@ oparr bruteforce(const func desired) {
     printf(" in %d operations\n", MAX_OP_NUM);
 }
 
-int main() {
+void find_hardest() {
+    Array inc;
+    inc.size = 4;
+    inc.ptr[0] = inc.ptr[1] = inc.ptr[2] = inc.ptr[3] = 0;
+    
+    func hardest_functor;
+    uint hardest_oplen = 0;
+    
+    func nxor = { 1, 0, 0, 1 };
+
+    for (int i = 0, to = powi(2, 4); i < to; i++) {
+        func desired = { inc.ptr[0], inc.ptr[1], inc.ptr[2], inc.ptr[3] };
+        increment_arr(&inc, 2);
+
+        oparr found = bruteforce(desired);
+        printf("found in %d operations\n", found.size);
+
+        if (found.size > hardest_oplen) {
+            hardest_oplen = found.size;
+            hardest_functor = desired;
+        }
+    }
+
+    printf("\nchecked all. hardest was: ");
+    print_functor(hardest_functor);
+    printf(" needed %d operations to get\n", hardest_oplen);
+}
+void find_xor() {
     func desired = { 0, 1, 1, 0 };
     oparr found = bruteforce(desired);
 
@@ -141,6 +165,11 @@ int main() {
         if (i != found.size - 1) { printf("->"); }
         else { printf("\n"); }
     }
+}
+
+int main() {
+    // find_xor();
+    find_hardest();
 
     return 0;
 }
