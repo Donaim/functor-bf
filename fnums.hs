@@ -2,6 +2,7 @@
     Convert functors to numbers and see how they behave 
 -}
 
+
 check :: [Int] -> [Int] -> [Int] -> Bool
 check x y z = 
     all isOk $ zip x y
@@ -37,7 +38,7 @@ generatePoss m o initial
 
 arrToNum :: Int -> Int -> Int -> [Int] -> Int
 arrToNum base acc pow []  = acc
-arrToNum base acc pow arr = arrToNum base (acc + ((last arr) * (base ^ pow))) (succ pow) (init arr)
+arrToNum base acc pow arr = arrToNum base $ acc + ((last arr) * (base ^ pow)) $ succ pow $ init arr
 
 numToArr :: Int -> [Int] -> Int -> [Int]
 numToArr base acc 0 = acc
